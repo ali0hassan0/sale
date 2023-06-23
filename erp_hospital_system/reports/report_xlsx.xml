@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_report_hospital" model="ir.actions.report">
+        <field name="name">patient Card</field>
+        <field name="model">hospital.management</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">erp_hospital_system.report_patientreport</field>
+        <field name="report_file">erp_hospital_system.report.report_patientreport</field>
+        <field name="binding_model_id" ref="model_erp_hospital_system"/>
+        <field name="binding_type">report</field>
+    </record>
+      <record id="action_report_hospital_wizard" model="ir.actions.report">
+        <field name="name">patient Card</field>
+        <field name="model">cancel.appointment.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">erp_hospital_system.action_report_hospital_wizard</field>
+        <field name="report_file">erp_hospital_system.report.action_report_hospital_wizard</field>
+        <field name="binding_type">report</field>
+    </record>
+    <report
+            id="report_product_details"
+            string="product details"
+            model="hospital.management"
+            report_type="qweb-pdf"
+            name="erp_hospital_system.report_product"
+            file="erp_hospital_system.report_product"
+    />
+
+</odoo>

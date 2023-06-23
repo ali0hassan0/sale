@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+      <record model="ir.actions.act_window" id="technical_hospital_action">
+        <field name="name">Technical Hospital</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">technical.hospital</field>
+        <field name="context">{}</field>
+        <field name="target">inline</field>
+        <!--       <field name="context">{ 'search_default_filter_male':1}</field>-->
+        <field name="domain">[]</field>
+
+
+        <!--        <field name="model_id" ref="erp_hospital_system_view_erp_hospital_system_tree"/>-->
+        <field name="view_mode">form</field>
+    </record>
+    <record id="view_technical_hospital_form" model="ir.ui.view">
+        <field name="name">technical.hospital.form</field>
+        <field name="model">technical.hospital</field>
+        <!--        <field name="inherit_id" ref="base.view_model_fields_form"/>-->
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="only_text"/>
+                        <field name="technical_expenses"/>
+                        <field name="code" widget="ace" optons="{'mode': 'python'}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <menuitem
+            id="technical_menu"
+            name="Technical"
+             sequence="16"
+            action="technical_hospital_action"
+            parent="hospital_menu_root"
+    />
+
+</odoo>
