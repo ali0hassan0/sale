@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.actions.server" id="action_mark_as_done">
+        <field name="name">Mark as Done</field>
+        <field name="model_id" ref="model_erp_hospital_system"/>
+        <field name="binding_model_id" ref="model_erp_hospital_system"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                if record.state == 'in_consultation':
+                    record.action_done()
+        </field>
+    </record>
+    <record id="view_erp_hospital_system_calendar" model="ir.ui.view">
+        <field name="name">hospital.management.calendar</field>
+        <field name="model">hospital.management</field>
+        <field name="arch" type="xml">
+            <calendar string="Patients Record" date_start="admit_date">
+                <field name="ref"/>
+            </calendar>
+        </field>
+    </record>
+    <record id="view_erp_hospital_system_form" model="ir.ui.view">
+        <field name="name">hospital.management.form</field>
+        <field name="model">hospital.management</field>
+        <!--        <field name="inherit_id" ref="sale.view_order_form"/>-->
+        <field name="arch" type="xml">
+            <form>
+
+                <header>
+                    <button name="action_in_consultation" string="In Consultation"
+                            data-hotkey="I" type="object" class="btn-primary"
+                            states="draft"/>
+                    <button name="action_done" string="Mark Done"
+                            data-hotkey="D" type="object" class="btn-primary"
+                            states="in_consultation"/>
+                    <button name="action_cancel" string="Cancel"
+                            data-hotkey="C" type="object" style="background-color:yellow;"
+                            states="done,draft,in_consultation"/>
+                    <button string="Draft" name="action_draft" data-hotkey="L"
+                            type="object" class="btn-secondary"
+                            states="cancel" style="background-color:blue; text-color: white; position:inside;"/>
+                    <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="done,draft,in_consultation"/>
+                    <button name="action_send_msg" string="Whatsapp" icon="fa-whatsapp"
+                            data-hotkey="w" type="object" class="btn-primary"
+                            />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_view_doctor" type="object" icon="fa-users">
+                            <field name="doctor_appoint" string="Doctor" widget="statinfo"/>
+                        </button>
+
+                    </div>
+                    <div role="alert" class="alert alert-info text-center o_form_header"
+                         attrs="{'invisible': [('is_birthday','=', False)]}">
+                        <a class="close" data-dismiss="alert" href="#"/>
+                        <div>
+                            <strong>Today is birthday !</strong>
+                        </div>
+                        <div>Wish
+                            <field name="name" readonly="1"/>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>
+                            <field name="priority" widget="priority"/>
+                            <div
+                                    class="text-center">
+                                <label for="cancel_patient_tag" name="CANCELLED" style="color: red;
+                                    font-size: 20px; font-weight: bold;"
+                                       attrs="{'invisible': [('state', 'in', ('draft','in_consultation','done'))]}"/>
+                                <field name="cancel_patient_tag" string="CANCELLED"
+                                       attrs="{'invisible': [('state', 'in', ('draft','in_consultation','done'))]}"/>
+                            </div>
+                        </h2>
+                    </div>
+                    <h2>
+                        <field name="ref"/>
+                    </h2>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <group>
+                        <group>
+                            <field name="name" default_focus="1" placeholder="Patient Name"/>
+                            <field name="gender" invisible="context.get('hide_gender')"
+                                   widget="radio"/>
+                            <field name="age"/>
+                            <field name="work_hour"/>
+                            <field name="salary"/>
+                            <field name="duration"/>
+
+
+                            <!--                            <field name="commission" digits="[1,3]"/>-->
+                            <!--                            <field name="commission2" digits="[1,3]"/>-->
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="is_birthday"/>
+                            <field name="tag_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color'}"/>
+                            <button name="salary_compute" type="object" string="Compute salary"
+                                    class="btn-primary"/>
+                            <field name="doctor_appoint" widget="many2one" string="Doctor Appoint"/>
+
+                        </group>
+                        <group string="Local info" name="local">
+
+                            <field name="phone_call" widget="phone"/>
+                            <field name="e_mail" widget="email"/>
+                            <field name="website" widget="website"/>
+
+                        </group>
+                        <group>
+                            <field name="admit_date"/>
+                            <field name="discharge_date"/>
+                            <field name="date_of_birth"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <button name="%(erp_hospital_system.cancel_appointment_action)d"
+                                    type="action" class="oe_highlight" string="cancel appointment"/>
+                            <button name="cancel_form"
+                                    type="object"
+                                    confirm="Are you sure to cancel?" class="fa fa-times btn-danger"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="progress" string="Progress">
+                            <group>
+                                <field name="progress" widget="percentpie"/>
+
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="view_erp_hospital_system_tree" model="ir.ui.view">
+        <field name="name">hospital.management.tree</field>
+        <field name="model">hospital.management</field>
+        <!--        <field name="inherit_id" ref="base.view_model_fields_form"/>-->
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'done'"
+                  decoration-warning="state == 'draft'"
+                  decoration-muted="state == 'cancel'"
+                  decoration-info="state == 'in_consultation'"
+                  sample="1" multi_edit="1">
+                <field name="name" optional="show"/>
+                <field name="age" optional="show"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <!--                <field name="activity_ids" widget="list_activity" optional="show"/>-->
+                <field name="tag_ids" widget="many2many_tags"
+                       options="{'color_field': 'color'}"/>
+                <field name="gender" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state == 'draft'"
+                       decoration-muted="state == 'cancel'"
+                       decoration-info="state == 'in_consultation'"/>
+                <!--                <field name="admit_date"/>-->
+                <!--                <field name="discharge_date"/>-->
+                <button name="action_done" type="object"
+                        class="fa fa-check btn-success"
+                        attrs="{'invisible':[('state','=','done')]}"
+                />
+                <button name="action_cancel" type="object"
+                        class="fa fa-times btn-danger"
+                        attrs="{'invisible':[('state','=', 'draft')]}"
+                />
+                <field name="progress" widget="percentpie"/>
+            </tree>
+
+        </field>
+    </record>
+
+    <record id="view_erp_hospital_system_search" model="ir.ui.view">
+        <field name="name">hospital.management.search</field>
+        <field name="model">hospital.management</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="age"/>
+                <field name="gender"/>
+                <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
+                <!--                <separator/>-->
+                <!--                <filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', '10')]"/>-->
+                <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group by">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by':'gender'}"/>
+                </group>
+                <searchpanel>
+                    <field name="gender" string="Gender" icon="fa-users" select="multi" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_erp_hospital_system_activity" model="ir.ui.view">
+        <field name="name">hospital.management.activity</field>
+        <field name="model">hospital.management</field>
+        <field name="arch" type="xml">
+            <activity string="Patients">
+                <field name="name"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activity_image('hospital.management', 'image', record.name.raw_value)"
+                             role="img" t-att-title="record.name.value" t-att-alt="record.name.value"/>
+                        <div>
+                            <field name="ref" display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+</odoo>

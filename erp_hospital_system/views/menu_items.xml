@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.actions.act_window" id="erp_hospital_system_action">
+        <field name="name">Hospital Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.management</field>
+        <field name="context">{'search_default_group_by_gender':1}</field>
+        <!--        <field name="model_id" ref="view_erp_hospital_system_calendar"/>-->
+        <field name="view_mode">tree,form,activity</field>
+    </record>
+    <menuitem
+            id="hospital_menu_root"
+            name="Hospital"
+            web_icon="erp_hospital_system,static/description/icon.png"
+            sequence="0"
+
+    />
+    <menuitem
+            id="patients_menu"
+            name="Patients"
+            parent="hospital_menu_root"
+            action="erp_hospital_system_action"
+            sequence="1"
+    />
+
+    <!--                        male patient with action-->
+    <record model="ir.actions.act_window" id="male_patient_action">
+        <field name="name">Male Patient</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.management</field>
+        <field name="context">{'default_gender': 'male'}</field>
+        <field name="domain">[('gender', '=', 'male')]</field>
+
+
+        <!--        <field name="model_id" ref="erp_hospital_system_view_erp_hospital_system_tree"/>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+            id="male_patient_menu"
+            name="Male Patient"
+            parent="patients_menu"
+            action="male_patient_action"
+
+            sequence="1"
+    />
+
+
+    <!--    female patient with her action-->
+
+    <record model="ir.actions.act_window" id="female_patient_action">
+        <field name="name">Female Patient</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.management</field>
+        <field name="context">{'default_gender': 'female'}</field>
+        <!--       <field name="context">{ 'search_default_filter_male':1}</field>-->
+        <field name="domain">[('gender', '=', 'female')]</field>
+
+
+        <!--        <field name="model_id" ref="erp_hospital_system_view_erp_hospital_system_tree"/>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+            id="femlae_patient_menu"
+            name="Famale Patient"
+            action="female_patient_action"
+            parent="patients_menu"
+            sequence="2"
+    />
+
+
+    <!--          doctor_appointed menu with action-->
+
+    <record model="ir.actions.act_window" id="doctor_appoint_action">
+        <field name="name">Doctor Appointed</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">doctor.appoint</field>
+        <field name="context">{}</field>
+        <!--       <field name="context">{ 'search_default_filter_male':1}</field>-->
+        <field name="domain">[]</field>
+
+
+        <!--        <field name="model_id" ref="erp_hospital_system_view_erp_hospital_system_tree"/>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+            id="doctor_appoint_menu_root"
+            name="Doctors"
+            sequence="2"
+            parent="hospital_menu_root"
+    />
+    <menuitem
+            id="doctor_appoint_menu"
+            name="Doctors"
+            action="doctor_appoint_action"
+            parent="doctor_appoint_menu_root"
+    />
+
+
+    <!--         medicine menu with action-->
+
+
+    <record model="ir.actions.act_window" id="medicine_hospital_action">
+        <field name="name">Medicine</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medicine.hospital</field>
+        <field name="context">{}</field>
+        <!--       <field name="context">{ 'search_default_filter_male':1}</field>-->
+        <field name="domain">[]</field>
+
+
+        <!--        <field name="model_id" ref="erp_hospital_system_view_erp_hospital_system_tree"/>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+            id="medicine_hospital_menu_root"
+            name="Medicine"
+            sequence="3"
+            parent="hospital_menu_root"
+    />
+    <menuitem
+            id="medicine_hospital_menu"
+            name="Medicine"
+            action="medicine_hospital_action"
+            parent="medicine_hospital_menu_root"
+    />
+
+    <!--            configure menu with action-->
+    <record model="ir.actions.act_window" id="configure_hospital_action">
+        <field name="name">Configuration</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">configure.hospital</field>
+        <field name="context">{}</field>
+        <!--       <field name="context">{ 'search_default_filter_male':1}</field>-->
+        <field name="domain">[]</field>
+
+
+        <!--        <field name="model_id" ref="erp_hospital_system_view_erp_hospital_system_tree"/>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+            id="configuration_hospital_menu_root"
+            name="Configuration"
+            sequence="4"
+            parent="hospital_menu_root"
+    />
+    <menuitem
+            id="configuration_hospital_menu_"
+            name="Tags"
+            action="configure_hospital_action"
+            parent="configuration_hospital_menu_root"
+    />
+
+
+    <!--    wizard cancel appointment menu with action-->
+
+    <record model="ir.actions.act_window" id="cancel_appointment_action">
+        <field name="name">Cancellation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cancel.appointment.wizard</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+        <!--       <field name="context">{ 'search_default_filter_male':1}</field>-->
+        <field name="domain">[]</field>
+
+
+        <!--        <field name="model_id" ref="erp_hospital_system_view_erp_hospital_system_tree"/>-->
+        <field name="view_mode">form</field>
+    </record>
+    <menuitem
+            id="cancel_appointment_menu"
+            name="Cancellation"
+            sequence="10"
+            action="cancel_appointment_action"
+            parent="patients_menu"
+    />
+
+
+    <!--    hospital settings menu with action-->
+
+    <record id="hospital_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'erp_hospital_system', 'bin_size': False}</field>
+    </record>
+    <menuitem id="hospital_config_settings_menu" name="Settings"
+              parent="configuration_hospital_menu_root"
+              sequence="0" action="hospital_config_settings_action"
+              groups="base.group_system"/>
+
+
+    <!--    dashboard menu with action-->
+
+<!--    <record id="dashboard_action" model="ir.actions.client">-->
+<!--        <field name="name">Dashboard</field>-->
+<!--        <field name="tag">dashboard_tag</field>-->
+
+<!--    </record>-->
+<!--    <menuitem id="dashboard_menu_root" name="Dashboard"-->
+<!--              parent="hospital_menu_root"-->
+<!--              sequence="0" action="dashboard_action"-->
+<!--              />-->
+</odoo>
