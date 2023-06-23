@@ -16,7 +16,6 @@
     'price':'12.0',
     'currency': 'USD',
     'images': 'static/description/icon.png',
-    'license':'LGPL-3',
     'category':'management',
     'maintainer':'Ali Hassan',
     'auto-install': False,
