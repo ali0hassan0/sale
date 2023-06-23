@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="seq_hospital_patient" model="ir.sequence">
+            <field name="name">Hospital Patient</field>
+            <field name="code">hospital.patient</field>
+            <field name="prefix">L</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+         <record id="seq_doctor_appoint" model="ir.sequence">
+            <field name="name">Doctor Appoint</field>
+            <field name="code">doctor.appoint</field>
+            <field name="prefix">D</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

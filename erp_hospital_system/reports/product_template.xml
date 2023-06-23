@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <template id="report_product">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <t t-call="web.basic_layout">
+                        <div class="col-md-6">
+                            <h1>Hello World</h1>
+                            <p>
+                                <t t-esc="doc.name"/>
+                            </p>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

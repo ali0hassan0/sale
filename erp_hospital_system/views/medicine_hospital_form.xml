@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_medicine_hospital_form" model="ir.ui.view">
+        <field name="name">medicine.hospital.form</field>
+        <field name="model">medicine.hospital</field>
+        <!--        <field name="inherit_id" ref="base.view_model_fields_form"/>-->
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1>
+                        <group style="font-size:2rem;">
+                            <field name="medicine_name"/>
+                        </group>
+                    </h1>
+                    <group>
+                        <field name="medicine_price"/>
+                        <field name="hide_doctor_fee" groups="base.group_no_one"/>
+                        <field name="record_reference"/>
+                    </group>
+                    <group>
+                        <field name="com" attrs="{'readonly': [('com2', '>', 0)]}"/>
+                        <field name="com2" attrs="{'readonly': [('com', '>', 0)]}"/>
+                    </group>
+                </sheet>
+                <notebook>
+                    <page name="doctor_appointed" string="Doctor details">
+                        <field name="doctor_details_ids" widget="section_and_note_one2many">
+
+                            <tree editable="bottom">
+                                <field name="date_for_checkup"/>
+                                <field name="doctor_fee"
+                                       attrs="{'column_invisible': [('parent.hide_doctor_fee', '=', True)]}"/>
+                                <field name="patient_name"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="doctor_name"/>
+                                    <field name="date_for_checkup"/>
+                                    <field name="doctor_fee"
+                                           attrs="{'column_invisible': [('parent.hide_doctor_fee', '=', False)]}"/>
+                                    <field name="patient_name"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_medicine_hospital_tree" model="ir.ui.view">
+        <field name="name">medicine.hospital.tree</field>
+        <field name="model">medicine.hospital</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="medicine_name" decoration-success="1"/>
+                <field name="medicine_price"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
