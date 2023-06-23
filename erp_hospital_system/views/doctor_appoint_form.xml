@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_doctor_appoint_form" model="ir.ui.view">
+        <field name="name">doctor.appoint.form</field>
+        <field name="model">doctor.appoint</field>
+        <!--        <field name="inherit_id" ref="base.view_model_fields_form"/>-->
+        <field name="arch" type="xml">
+            <form create="0">
+                <sheet>
+                    <group class="oe_title">
+                        <div>
+                            <h4>
+                                <field name="ref" readonly="1"/>
+                            </h4>
+                            <h2>
+                                <label for="doctor_name" string="Doctor Name"/>
+                                <field name="doctor_name" placeholder="Enter Doctor Name"/>
+                            </h2>
+
+                        </div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="patient_name"/>
+                            <field name="doctor_age"/>
+                            <field name="patient_gender"/>
+                            <button name="test_button" string="Test button" type="object"/>
+                        </group>
+                    </group>
+                    <group string="Other Info">
+                        <field name="patient_parent" attrs="{'invisible': [('martial_status', '=', 'maried')]}"/>
+                        <field name="martial_status" attrs="{'invisible': [('doctor_age', '&lt;', '18')]}"/>
+                        <field name="patient_partner_name"
+                               attrs="{'required': [('martial_status' ,'=', 'maried')],
+                                'invisible': [('martial_status', '=', 'single')],
+                                'invisible': [('doctor_age', '&lt;', '18')]}"/>
+                    </group>
+                </sheet>
+                <notebook>
+                    <page string="Medicine" name="medicine">
+                        <group>
+                            <field name="medicine"/>
+                            <field name="medicine_price"/>
+                            <field name="date_for_checkup"/>
+                        </group>
+                    </page>
+                    <page string="Priscription" name="prescription">
+                        <group>
+                            <field name="prescription" placeholder="Write your prescription"
+                                   optoins="{'collaborative': true, 'resizeable',: true, 'codeview': true}"/>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_doctor_appoint_tree" model="ir.ui.view">
+        <field name="name">doctor.appoint.tree</field>
+        <field name="model">doctor.appoint</field>
+        <field name="arch" type="xml">
+            <tree duplicate="0" sample="1">
+                <field name="doctor_name"/>
+                <field name="doctor_fee"/>
+                <field name="ref"/>
+                <field name="date_for_checkup"/>
+                <field name="patient_name"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
